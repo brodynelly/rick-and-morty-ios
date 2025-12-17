@@ -4,6 +4,7 @@
 //
 //  Created by Brody Nelson on 5/4/25.
 //
+
 import SwiftUI
 
 // A reusable view component for displaying a single character in a list row

@@ -1,27 +1,26 @@
 //
-//  APIService.swift
+//  CharacterListViewModel.swift
 //  IOSFinalProject_F
 //
-//  Created by Brody Nelson on 5/4/25.
-//// In Services/APIService.swift
-//
-//  APIService.swift
-//  IOSFinalProject_F
-//
-//  Created by Brody Nelson on 5/4/25.
+//  Created by Refactoring Agent on 5/6/25.
 //
 
 import Foundation
 import Combine
 
-class APIService: ObservableObject {
+class CharacterListViewModel: ObservableObject {
     @Published var characters: [Character] = []
     @Published var errorMessage: String? = nil
     @Published var isLoading: Bool = false
 
+    private let service: CharacterServiceProtocol
     private var currentPage = 1
     private var totalPages = 1
     private var nextURL: String? = "https://rickandmortyapi.com/api/character"
+
+    init(service: CharacterServiceProtocol = CharacterService()) {
+        self.service = service
+    }
 
     @MainActor
     func fetchCharacters() async {
@@ -45,21 +44,11 @@ class APIService: ObservableObject {
         print("DEBUG: Fetching characters from URL: \(url)")
 
         do {
-            let (data, response) = try await URLSession.shared.data(from: url)
+            let (newCharacters, info) = try await service.fetchCharacters(url: url)
 
-            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                let statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1
-                errorMessage = "Invalid server response. Status Code: \(statusCode)"
-                print("DEBUG: Invalid response - Status Code: \(statusCode)")
-                isLoading = false
-                return
-            }
-
-            let apiResponse = try JSONDecoder().decode(APIResponse.self, from: data)
-
-            characters.append(contentsOf: apiResponse.results)
-            nextURL = apiResponse.info.next
-            totalPages = apiResponse.info.pages
+            characters.append(contentsOf: newCharacters)
+            nextURL = info.next
+            totalPages = info.pages
             currentPage += 1
             print("DEBUG: Successfully fetched page. Total characters: \(characters.count). Next URL: \(nextURL ?? "None")")
 
