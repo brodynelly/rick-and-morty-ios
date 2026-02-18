@@ -1,5 +1,7 @@
 # iOS Final Project - Rick & Morty App
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![CI](https://github.com/brodynelly/rick-and-morty-ios/actions/workflows/ci.yml/badge.svg)](https://github.com/brodynelly/rick-and-morty-ios/actions/workflows/ci.yml) ![Swift](https://img.shields.io/badge/Swift-5.9-orange?logo=swift)
+
 An iOS application built with SwiftUI that displays characters from the [Rick and Morty API](https://rickandmortyapi.com/).
 
 ## 🚀 Demo
