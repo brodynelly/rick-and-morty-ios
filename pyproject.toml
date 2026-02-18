@@ -1,0 +1,3 @@
+# Tooling config (Swift/iOS project — linting via SwiftLint, see .swiftlint.yml)
+[tool.ruff]
+# Not applicable
